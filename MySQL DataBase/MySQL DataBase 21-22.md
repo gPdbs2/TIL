@@ -2,7 +2,7 @@
 
 문서 유형: 학습 자료
 작성일시: 2022년 8월 19일 오후 9:26
-최종 편집일시: 2022년 8월 19일 오후 11:11
+최종 편집일시: 2022년 8월 19일 오후 11:13
 
 <aside>
 💡 **MySQL 1회독 진행 중( 22 / 25 강)**
@@ -17,7 +17,7 @@
     - 데이터 베이스에서 데이터 처리의 한 단위
     - 대부분의 데이터 베이스는 데이터를 저장, 수정, 삭제하는 작업을 바로 물리적인 하드디스크에 저장된 데이터에 반영하지 X
         - 이는 개발자의 실수로 잘못된 명령문을 입력했을 경우 다시 원래 상태로 되돌리기 위한 안전 장치
-    - 따라서 개발자가 commit이라는 작업을 하기 전까지 입력한 명령문은 메모리에서만 동작하고 물리적인 하드디스크에 반영하지 X
+    - 따라서 **개발자가 commit이라는 작업을 하기 전까지 입력한 명령문은 메모리에서만 동작하고 물리적인 하드디스크에 반영하지 X**
         - commit 작업 발생 시 그 때 하드디스크에 반영
     - 개발자가 데이터에 대한 작업을 하기 위해 입력하는 명령문들의 시작부터 commit까지를 하나의 트렌젝션이라고 부름
 
@@ -40,7 +40,7 @@
     
 - **Commit**
     - 하나의 트렌젝션을 물리적인 데이터 베이스에 적용하는 작업
-    - 이 작업을 하게 되면 RollBack 해도 원래 형태로 되돌릴 수 X
+    - **이 작업을 하게 되면 RollBack 해도 원래 형태로 되돌릴 수 X**
     - 일반적으로 개발자가 만드는 프로그램들은 자동으로 commit 발생
     
     ```sql
@@ -117,12 +117,12 @@
 
 - **테이블 변경하기**
     - 존재하는 테이블의 이름, 속성 등을 변경할 수 있음
-    - rename table old_name to new_name
-    - alter table table_name modify coulmn type (제약조건)
-    - alter table table_name change old_coulmn new_coulmn type
-    - alter table table_name add new_coulmn type
-    - alter table table_name drop coulmn_name
-    - drop table 테이블명
+    - **rename table old_name to new_name**
+    - **alter table table_name modify coulmn type (제약조건)**
+    - **alter table table_name change old_coulmn new_coulmn type**
+    - **alter table table_name add new_coulmn type**
+    - **alter table table_name drop coulmn_name**
+    - **drop table 테이블명**
     
     ```sql
     show tables;

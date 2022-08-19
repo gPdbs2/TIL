@@ -2,7 +2,7 @@
 
 문서 유형: 학습 자료
 작성일시: 2022년 8월 19일 오후 9:26
-최종 편집일시: 2022년 8월 19일 오후 11:00
+최종 편집일시: 2022년 8월 19일 오후 11:11
 
 <aside>
 💡 **MySQL 1회독 진행 중( 22 / 25 강)**
@@ -61,7 +61,7 @@
 
 - SavePoint
     - RollBack 시 지정된 위치로 복원할 수 있음
-    - ㅊ 명령어로 지점을 지정, rollback 명령어로 복원
+    - savepoint 명령어로 지점을 지정, rollback 명령어로 복원
     
     ```sql
     insert into test_table2 (data1, data2, data3) values (100, '문자열1', 11.11);

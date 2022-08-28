@@ -2,7 +2,7 @@
 
 이해관계자: 익명
 작성일시: 2022년 8월 24일 오후 7:37
-최종 편집일시: 2022년 8월 26일 오후 11:12
+최종 편집일시: 2022년 8월 28일 오후 4:10
 
 # Chapter ****03. 자료형****
 
@@ -706,11 +706,398 @@ System.out.println(isOdd);  // true 출력
 
 ## ****07. 리스트 (List)****
 
-- 
+- ****ArrayList****
+    - **List 자료형**
+        - ArrayList, Vector, LinkedList 등의 List 인터페이스를 구현한 자료형
+    - ****add****
+        
+        ```java
+        import java.util.ArrayList;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList pitches = new ArrayList();
+                pitches.add("138");
+                pitches.add("129");
+                pitches.add("142");
+            }
+        }
+        ```
+        
+        - ArrayList를 사용하기 위해서는 ArrayList를 먼저 import
+            - `import java.util.ArrayList`
+        - ArrayList 객체인 pitches에 add 라는 메소드를 이용하여 투구 스피드를 저장
+        - 첫번째 위치에 "133"이라는 투구 스피드를 삽입하고 싶다면 삽입할 위치를 파라미터로 넘겨줘야 함
+            
+            ```java
+            pitches.add(0, "133");    // 첫번째 위치에 133 삽입.
+            ```
+            
+        
+        - 2번째 위치에 133을 삽입할 경우
+            
+            ```java
+            pitches.add(1, "133");
+            ```
+            
+        
+    - **제네릭스**
+        - 자바는 J2SE 5.0 버전 이후부터 `ArrayList<String> pitches = new ArrayList<>();`
+         처럼 객체를 포함하는 자료형도 어떤 객체를 포함하는지에 대해서 명확하게 표현할 것을 권고
+        - 인텔리제이에서 위의 예제와 같이 제네릭스 없이 코딩
+            - 명확한 타입을 명시하라는 warning이 표시
+    
+    - ****get****
+        - 특정 인덱스의 값을 추출
+            
+            ```java
+            System.out.println(pitches.get(1));
+            ```
+            
+    
+    - ****size****
+        - ArrayList의 갯수를 리턴
+            
+            ```java
+            System.out.println(pitches.size());
+            ```
+            
+
+- ****contains****
+    - 리스트 안에 해당 항목이 있는지를 판별하여 그 결과를 boolean으로 리턴
+        
+        ```java
+        System.out.println(pitches.contains("142"));
+        ```
+        
+
+- ****remove****
+    - 2가지 방식
+        - **remove(객체)**
+            - 리스트에서 객체에 해당되는 항목을 삭제하고 삭제한 결과(true, false)를 리턴
+            
+            ```java
+            System.out.println(pitches.remove("129"));
+            
+            // 수행결과
+            true
+            ```
+            
+        - **remove(인덱스)**
+            - 해당 인덱스의 항목을 삭제하고 삭제된 항목을 리턴
+            
+            ```java
+            System.out.println(pitches.remove(0));
+            
+            // 수행결과
+            138
+            ```
+            
+            - pitches의 첫번째 항목은 "138"이므로 "138"이 삭제된 후 "138"을 리턴
+
+- ****제네릭스(Generics)****
+    - 제네릭스(Generics)
+        
+        ```java
+        ArrayList<String> pitches = new ArrayList<String>();
+        
+        // 선호되는 방식
+        ArrayList<String> pitches = new ArrayList<>();
+        ```
+        
+
+- `<String>`이라는 제네릭스 표현식
+    - "ArrayList 안에 담을 수 있는 자료형은 String 타입 뿐이다" 라는 의미
+    - `<Integer>`, `<Animal>`, `<Dog>` 등 어떤 자료형도 사용 가능
+    - 제네릭스를 이용하면 좀 더 명확한 타입체크 가능
+    - 제네릭스를 사용하지 않은 경우
+        
+        ```java
+        ArrayList pitches = new ArrayList();
+        aList.add("138");
+        aList.add("129");
+        
+        String one = (String) pitches.get(0);
+        String two = (String) pitches.get(1);
+        ```
+        
+        - ArrayList 안에 추가되는 객체는 Object 자료형으로 인식
+        - Object 자료형은 모든 객체가 상속하고 있는 가장 기본적인 자료형
+        - ArrayList 객체인 pitches에 값을 넣을 때는 문제가 안되지만
+            - **But,** 값을 가져올 경우에는 항상 Object 자료형에서 String 자료형으로 형변환(casting) 해줘야 함
+            
+            ```java
+            String one = (String) pitches.get(0); // Object 자료형을 String 자료형으로 캐스팅한다.
+            ```
+            
+        - pitches 안에는 String 객체 이외의 객체도 넣을 수 있기 때문에 형 변환 과정에서 잘못된 형변환으로 인한 오류가 발생할 가능성이 있음
+        
+    - 위의 코드를 제네릭스를 사용해 변경할 경우
+        
+        ```java
+        ArrayList<String> pitches = new ArrayList<>();
+        aList.add("138");
+        aList.add("129");
+        
+        String one = pitches.get(0);  // 형 변환이 필요없다.
+        String two = pitches.get(1);  // 형 변환이 필요없다.
+        ```
+        
+        - 제네릭스로 자료형을 선언하기만 하면 그 이후로는 자료형에 대한 형변환 과정이 필요 X
+        - 이미 컴파일러가 pitches에는 반드시 String 자료형만 추가 되어야 함을 알기 때문
+    
+    - 이렇게 제네릭스를 이용하면 형변환에 의한 불필요한 코딩과 잘못된 형변환에 의한 런타임 오류 방지
+
+- ****다양한 방법으로 ArrayList 만들기****
+    - ArrayList의 add 메소드를 사용 → ArrayList 객체에 요소를 추가 가능
+        
+        ```java
+        import java.util.ArrayList;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList<String> pitches = new ArrayList<>();  // 제네릭스를 사용한 표현
+                pitches.add("138");
+                pitches.add("129");
+                pitches.add("142");
+                System.out.println(pitches);  // [138, 129, 142] 출력
+            }
+        }
+        ```
+        
+
+- 이미 데이터가 존재할 경우에는 보다 편하게 ArrayList를 생성 가능
+    
+    ```java
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    
+    public class Sample {
+        public static void main(String[] args) {
+            String[] data = {"138", "129", "142"};  // 이미 투구수 데이터 배열이 있다.
+            ArrayList<String> pitches = new ArrayList<>(Arrays.asList(data));
+            System.out.println(pitches);  // [138, 129, 142] 출력
+        }
+    }
+    ```
+    
+
+- `java.util.Arrays`클래스의 asList 메소드
+    - 이미 존재하는 문자열 배열로 ArrayList를 생성 가능
+
+- String 배열 대신 String 자료형을 여러개 전달하여 생성 가능
+    
+    ```java
+    import java.util.ArrayList;
+    import java.util.Arrays;
+    
+    public class Sample {
+        public static void main(String[] args) {
+            ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138", "129", "142"));
+            System.out.println(pitches);
+        }
+    }
+    ```
+    
+
+- ****String.join****
+    - 콤마를 각 요소 중간에 삽입
+        
+        ```java
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138", "129", "142"));
+                String result = "";
+                for (int i = 0; i < pitches.size(); i++) {
+                    result += pitches.get(i);
+                    result += ",";  // 콤마를 추가한다.
+                }
+                result = result.substring(0, result.length() - 1);  // 마지막 콤마는 제거한다.
+                System.out.println(result);  // 138,129,142 출력
+            }
+        }
+        ```
+        
+        - pitches를 갯수만큼 루프를 돌면서 뒤에 콤마를 더하고 최종적으로 마지막 콤마를 제거하는 방법
+    
+    - `String.join`을 사용
+        
+        ```java
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138", "129", "142"));
+                String result = String.join(",", pitches);
+                System.out.println(result);  // 138,129,142 출력
+            }
+        }
+        ```
+        
+        - `String.join("구분자", 리스트객체)`
+            - 리스트의 각 요소에 "구분자"를 삽입하여 하나의 문자열로 만들 수 있음
+        - 문자열 배열에도 사용 가능
+            
+            ```java
+            public class Sample {
+                public static void main(String[] args) {
+                    String[] pitches = new String[]{"138", "129", "142"};
+                    String result = String.join(",", pitches);
+                    System.out.println(result);  // 138,129,142 출력
+                }
+            }
+            ```
+            
+        - `String.join`메소드는 Java 8 버전부터 사용
+
+- ****리스트 정렬하기****
+    - 순서대로 정렬 → 리스트의 **sort 메소드**를 사용해야 함
+        
+        ```java
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.Comparator;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList<String> pitches = new ArrayList<>(Arrays.asList("138", "129", "142"));
+                pitches.sort(Comparator.naturalOrder());  // 오름차순으로 정렬
+                System.out.println(pitches);  // [129, 138, 142] 출력
+            }
+        }
+        ```
+        
+    
+    - sort 메소드에는 정렬기준을 파라미터로 전달
+        - 오름차순(순방향) 정렬 - `Comparator.naturalOrder()`
+        - 내림차순(역방향) 정렬 - `Comparator.reverseOrder()`
+    
+    - sort 메소드로 정렬후에 pitches를 출력
+        - `[129, 138, 142]`처럼 오름차순으로 정렬되어 출력되는 것을 확인
+    - 리스트의 `sort`메소드는 Java 8 버전부터 사용
 
 ## ****08. 맵 (Map)****
 
-- 
+- 자바의 **맵(Map)**
+    - 대응관계를 쉽게 표현할 수 있게 해 주는 자료형
+    - Associative array, Hash라고도 불림
+    - 맵(Map)은 사전(dictionary)과 비슷
+        - **Map은 Key와 Value를 한 쌍으로 갖는 자료형**
+    
+    - Map은 리스트나 배열처럼 순차적으로(sequential) 해당 요소 값을 구하지 않고 key를 통해 value를 얻음
+    - 맵(Map)의 가장 큰 특징
+        - key로 value를 얻어낸다는 점
+
+- ****HashMap****
+    - ****put****
+        - key와 value가 String 형태인 HashMap을 만들고 항목값들을 입력
+            
+            ```java
+            import java.util.HashMap;
+            
+            public class Sample {
+                public static void main(String[] args) {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("people", "사람");
+                    map.put("baseball", "야구");
+                }
+            }
+            ```
+            
+        - HashMap 역시 제네릭스를 이용
+            - HashMap 의 제네릭스는 Key, Value 모두 String 타입
+
+- ****get****
+    - key에 해당되는 value값을 얻기 위해서
+        
+        ```java
+        System.out.println(map.get("people"));  // "사람" 출력
+        ```
+        
+    - **get** 메소드를 이용하면 value값을 얻을 수 있음
+    - 위 예제는 "people" Key에 대응되는 Value 값으로 "사람"이라는 문자열을 출력
+    
+    - **getOrDefault**
+        - 맵의 key에 해당하는 value가 없을 경우
+            - get 메소드를 사용하면 다음처럼 null이 리턴
+            
+            ```java
+            System.out.println(map.get("java"));  // null 출력
+            ```
+            
+            - 이때 null 대신 디폴트 값을 얻고 싶은 경우에는 getOrDefault 메소드 사용
+            
+            ```java
+            System.out.println(map.getOrDefault("java", "자바"));  // "자바" 출력
+            ```
+            
+
+- ****containsKey****
+    - 맵(Map)에 해당 키(key)가 있는지를 조사하여 그 결과값을 리턴
+        
+        ```java
+        System.out.println(map.containsKey("people"));  // true 출력
+        ```
+        
+        - "people"이라는 키는 존재하므로 true가 출력
+
+- ****remove****
+    - 맵(Map)의 항목을 삭제하는 메소드
+    - key값에 해당되는 아이템(key, value)을 삭제한 후 그 value 값을 리턴
+        
+        ```java
+        System.out.println(map.remove("people"));  // "사람" 출력
+        ```
+        
+        - "people"에 해당되는 아이템(people:사람)이 삭제된 후 "사람"이 출력
+
+- ****size****
+    - Map의 갯수를 리턴
+        
+        ```java
+        System.out.println(map.size());  // 1 출력
+        ```
+        
+        - "people", "baseball" 두 값을 가지고 있다가 "people"항목이 삭제되었으므로 1이 출력
+
+- ****keySet****
+    - 맵(Map)의 모든 Key를 모아서 리턴
+        
+        ```java
+        import java.util.HashMap;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("people", "사람");
+                map.put("baseball", "야구");
+                System.out.println(map.keySet());  // [baseball, people] 출력
+            }
+        }
+        keySet()
+        ```
+        
+    - `keySet()`
+        - Map의 모든 Key를 모아서 Set 자료형으로 리턴
+    - Set 자료형은 다음과 같이 List 자료형으로 바꾸어 사용할 수 있음
+        
+        ```java
+        List<String> keyList = new ArrayList<>(map.keySet());
+        ```
+        
+    
+    - **LinkedHashMap과 TreeMap**
+        - Map의 가장 큰 특징은 순서에 의존하지 않고 key로 value를 가져오는 데 있음
+        - 하지만 가끔은 Map에 입력된 순서대로 데이터를 가져오고 싶은 경우도 있고 때로는 입력된 key에 의해 소트된 데이터를 가져오고 싶을 수도 있을 것
+        - 이런 경우 LinkedHashMap과 TreeMap을 사용하는 것이 유리
+            - LinkedHashMap
+                - 입력된 순서대로 데이터 저장
+            - TreeMap
+                - 입력된 key의 오름차순 순서로 데이터 저장
 
 ## ****09. 집합 (Set)****
 

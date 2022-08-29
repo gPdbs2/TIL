@@ -2,7 +2,7 @@
 
 이해관계자: 익명
 작성일시: 2022년 8월 24일 오후 7:37
-최종 편집일시: 2022년 8월 28일 오후 4:10
+최종 편집일시: 2022년 8월 29일 오후 11:53
 
 # Chapter ****03. 자료형****
 
@@ -1101,12 +1101,435 @@ System.out.println(isOdd);  // true 출력
 
 ## ****09. 집합 (Set)****
 
-- 
+- **집합 자료형은 어떻게 만들까?**
+    - HashSet
+        - 집합 자료형 만들기
+            
+            ```java
+            import java.util.Arrays;
+            import java.util.HashSet;
+            
+            public class Sample {
+                public static void main(String[] args) {
+                    HashSet<String> set = new HashSet<>(Arrays.asList("H", "e", "l", "l", "o"));
+                    System.out.println(set);  //  [e, H, l, o] 출력
+                }
+            }
+            ```
+            
+
+- **Set 자료형**
+    - HashSet, TreeSet, LinkedHashSet 등의 Set 인터페이스를 구현한 자료형
+    - 여기서 말하는 Set 자료형은 인터페이스
+
+- **집합 자료형의 특징**
+    - 문자열 배열로 HashSet 자료형을 만들었는데 출력된 자료형에는 `l`문자가 하나 빠져 있고 순서도 뒤죽박죽
+        - 집합 자료형에는 다음과 같은 2가지 큰 특징이 있기 때문
+            - 중복을 허용하지 않는다.
+            - 순서가 없다(Unordered).
+    - 리스트나 배열은 순서가 있음(ordered)
+        - 인덱싱을 통해 자료형의 값을 얻을 수 있음
+    - But 집합 자료형은 순서가 없기(unordered) 때문에 인덱싱으로 값을 얻을 수 없음
+        - 맵 자료형과 비슷
+        - 맵 자료형 역시 순서가 없는 자료형이라 인덱싱을 지원하지 않음
+        - 중복을 허용하지 않는 집합 자료형의 특징
+            - 자료형의 중복을 제거하기 위한 필터 역할로 종종 사용
+
+- **교집합, 차집합, 합집합 구하기**
+    - 집합 자료형을 정말 유용하게 사용하는 경우
+        - 교집합, 합집합, 차집합을 구할 때
+    - 2개의 집합 자료형을 만든 후 s1은 1부터 6까지의 값을 가지게 되었고, s2는 4부터 9까지의 값을 가지게 되었다.
+        
+        ```java
+        import java.util.Arrays;
+        import java.util.HashSet;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                HashSet<Integer> s1 = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+                HashSet<Integer> s2 = new HashSet<>(Arrays.asList(4, 5, 6, 7, 8, 9));
+            }
+        }
+        ```
+        
+        - 제네릭스로 int를 사용하고 싶은 경우
+            - int의 Wrapper 클래스인 Integer를 대신 사용해야 함
+    
+    - **교집합**
+        - **retainAll** 메소드 → 교집합을 간단히 구할 수 있음
+        - s1과 s2의 교집합
+            - s1의 데이터를 유지하기 위해 s1으로 intersection이라는 HashSet 객체를 Copy하여 생성
+            - 만약 intersection 대신 s1에 retainAll 메소드를 사용하면 s1의 내용이 변경될 것임
+            - retainAll 메소드로 교집합 수행 후 intersection 출력
+                - 교집합에 해당되는 `[4, 5, 6]`이 출력
+            
+            ```java
+            import java.util.Arrays;
+            import java.util.HashSet;
+            
+            public class Sample {
+                public static void main(String[] args) {
+                    HashSet<Integer> s1 = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+                    HashSet<Integer> s2 = new HashSet<>(Arrays.asList(4, 5, 6, 7, 8, 9));
+            
+                    HashSet<Integer> intersection = new HashSet<>(s1);  // s1으로 intersection 생성
+                    intersection.retainAll(s2);  // 교집합 수행
+                    System.out.println(intersection);  // [4, 5, 6] 출력
+                }
+            }
+            ```
+            
+
+- **합집합**
+    - **addAll** 메소드 → 합집합 구할 수 있음
+    - 4, 5, 6처럼 중복해서 포함된 값은 한 개씩만 표현
+        - 합집합의 결과로 `[1, 2, 3, 4, 5, 6, 7, 8, 9]`을 출력
+        
+        ```java
+        import java.util.Arrays;
+        import java.util.HashSet;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                HashSet<Integer> s1 = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+                HashSet<Integer> s2 = new HashSet<>(Arrays.asList(4, 5, 6, 7, 8, 9));
+        
+                HashSet<Integer> union = new HashSet<>(s1);  // s1으로 union 생성
+                union.addAll(s2); // 합집합 수행
+                System.out.println(union);  // [1, 2, 3, 4, 5, 6, 7, 8, 9] 출력
+            }
+        }
+        ```
+        
+
+- 차집합
+    - removeAll 메소드 → 차집합 구하는 용도
+        - 차집합의 결과로 `[1, 2, 3]` 출력
+        
+        ```java
+        import java.util.Arrays;
+        import java.util.HashSet;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                HashSet<Integer> s1 = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+                HashSet<Integer> s2 = new HashSet<>(Arrays.asList(4, 5, 6, 7, 8, 9));
+        
+                HashSet<Integer> substract = new HashSet<>(s1);  // s1으로 substract 생성
+                substract.removeAll(s2); // 차집합 수행
+                System.out.println(substract);  // [1, 2, 3] 출력
+            }
+        }
+        ```
+        
+
+- **집합 자료형 관련 메소드**
+    - ****값 추가하기(add)****
+        - 집합 자료형에 값을 추가할 때 **add 메소드**를 사용
+            
+            ```java
+            import java.util.HashSet;
+            
+            public class Sample {
+                public static void main(String[] args) {
+                    HashSet<String> set = new HashSet<>();
+                    set.add("Jump");
+                    set.add("To");
+                    set.add("Java");
+                    System.out.println(set);  // [Java, To, Jump] 출력
+                }
+            }
+            ```
+            
+    - ****값 여러 개 추가하기(addAll)****
+        - 여러 개의 값을 한꺼번에 추가할 때 addAll 메소드를 사용
+        - 합집합을 구할 때도 addAll을 사용
+            
+            ```java
+            import java.util.Arrays;
+            import java.util.HashSet;
+            
+            public class Sample {
+                public static void main(String[] args) {
+                    HashSet<String> set = new HashSet<>();
+                    set.add("Jump");
+                    set.addAll(Arrays.asList("To", "Java"));
+                    System.out.println(set);  // [Java, To, Jump] 출력
+                }
+            }
+            ```
+            
+
+- ****특정 값 제거하기(remove)****
+    - 특정 값을 제거하고 싶을 때 remove 메소드를 사용
+        
+        ```java
+        import java.util.Arrays;
+        import java.util.HashSet;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                HashSet<String> set = new HashSet<>(Arrays.asList("Jump", "To", "Java"));
+                set.remove("To");
+                System.out.println(set);  // [Java, Jump] 출력
+            }
+        }
+        ```
+        
+    
+    - **TreeSet과 LinkedHashSet**
+        - Set 자료형은 순서가 없다는 특징 있음
+        - 하지만 가끔은 Set에 입력된 순서대로 데이터를 가져오고 싶은 경우도 있고, 때로는 오름차순으로 정렬된 데이터를 가져오고 싶을 수도 있음
+            - TreeSet과 LinkedHashSet을 사용
+                - **TreeSet** - 오름차순으로 값을 정렬하여 저장
+                - **LinkedHashSet** - 입력한 순서대로 값을 정렬하여 저장
 
 ## ****10. 상수집합 (Enum)****
 
-- 
+- **Enum 만들기**
+    - 예) 어떤 커피숍에서 판매하는 커피의 종류
+        - 아메리카노
+        - 아이스 아메리카노
+        - 카페라떼
+    - 3종류의 커피를 판매한다고 하면 다음과 같이 Enum 으로 상수집합 만들 수 있음
+        
+        ```java
+        enum CoffeeType {
+            AMERICANO,
+            ICE_AMERICANO,
+            CAFE_LATTE
+        };
+        ```
+        
+    
+    - 정의한 상수 집합 사용
+        
+        ```java
+        public class Sample {
+            enum CoffeeType {
+                AMERICANO,
+                ICE_AMERICANO,
+                CAFE_LATTE
+            };
+        
+            public static void main(String[] args) {
+                System.out.println(CoffeeType.AMERICANO);  // AMERICANO 출력
+                System.out.println(CoffeeType.ICE_AMERICANO);  // ICE_AMERICANO 출력
+                System.out.println(CoffeeType.CAFE_LATTE);  // CAFE_LATTE 출력
+            }
+        }
+        ```
+        
+    
+    - 반복문에서 사용
+        
+        ```java
+        public class Sample {
+            enum CoffeeType {
+                AMERICANO,
+                ICE_AMERICANO,
+                CAFE_LATTE
+            };
+        
+            public static void main(String[] args) {
+                for(CoffeeType type: CoffeeType.values()) {
+                    System.out.println(type);  // 순서대로 AMERICANO, ICE_AMERICANO, CAFE_LATTE 출력
+                }
+            }
+        }
+        ```
+        
+
+- **Enum 은 왜 필요한가?**
+    - **Enum 의 장점**
+        - 매직넘버(1과 같은 숫자 상수값)를 사용할 때보다 코드가 명확해 짐
+            - **매직넘버** : 프로그래밍에서 상수로 선언하지 않은 숫자
+        - 잘못된 값을 사용함으로 인해 발생할수 있는 위험성이 사라짐
+        - 오늘 판매된 커피의 갯수를 리턴하는 메소드
+            - 입력으로 들어온 커피의 종류가 오늘 몇 개 판매되었는지를 리턴하는 메소드
+            
+            ```java
+            /**
+             * 오늘 판매된 커피의 갯수를 리턴하는 메소드이다.
+             * @param type 커피의 종류 (1: 아메리카노, 2: 아이스 아메리카노, 3: 카페라떼)
+             */
+            int countSellCoffee(int type) {
+                ... 생략 ...
+            }
+            ```
+            
+            - 아메리카노의 오늘 판매 갯수를 알기 위해서는 다음과 같이 숫자 1을 넘겨야 함
+            - 숫자 1이 아메리카노임을 기억하고 사용해야 한다는 불편함 발생
+                
+                ```java
+                int americano = countSellCoffee(1);
+                ```
+                
+            - 다음과 같이 사용할 경우에도 문제가 발생
+                
+                ```java
+                int result = countSellCoffee(99);  // 99 타입은 존재하지 않으므로 오류가 발생한다.
+                ```
+                
+        - 메소드 변경
+            
+            ```java
+            enum CoffeeType {
+                AMERICANO,
+                ICE_AMERICANO,
+                CAFE_LATTE
+            };
+            
+            /**
+             * 오늘 판매된 커피의 갯수를 리턴하는 메소드이다.
+             * @param type 커피의 종류 (CoffeType)
+             */
+            int countSellCoffee(CoffeType type) {
+                ... 생략 ...
+            }
+            ```
+            
+        
+        - 메소드를 변경하면 이 메소드는 숫자 대신 CoffeeType을 파라미터로 사용해야 함
+            
+            ```java
+            int americano = countSellCoffee(CoffeType.AMERICANO);  // 아메리카노의 오늘 판매갯수
+            ```
+            
+            - 숫자 1을 사용했을때 보다 코드가 명확
+            - countSellCoffee 메소드에는 CoffeType에 정의된 상수만 전달
+                - 엉뚱한 숫자값에 의한 오류가 발생하지 않음
 
 ## ****11. 형 변환과 final****
 
--
+- **형 변환**
+    
+    ```java
+    String num = "123";
+    ```
+    
+    - 자료형은 문자열이지만 그 내용은 숫자로 이루어진 값
+        - 문자열을 정수(integer)로 바꿀 수 있음
+    - **Integer 클래스**
+        - int자료형의 Wrapper 클래스
+        - 문자열을 정수로 바꾸고자 할 때 사용
+        
+        ```java
+        public class Sample {
+            public static void main(String[] args) {
+                String num = "123";
+                int n = Integer.parseInt(num);
+                System.out.println(n);  // 123 출력
+            }
+        }
+        ```
+        
+        - 반대로 정수 123을 문자열 "123"으로 바꾸는 방법
+            - 정수를 문자열로 바꾸는 가장 쉬운 방법
+                - 정수 앞에 빈 문자열(`""`)을 더해 주는 것
+            
+            ```java
+            public class Sample {
+                public static void main(String[] args) {
+                    int n = 123;
+                    String num1 = String.valueOf(n);
+                    String num2 = Integer.toString(n);
+                    System.out.println(num1);  // 123 출력
+                    System.out.println(num2);  // 123 출력
+                }
+            }
+            ```
+            
+        
+        - 소숫점이 포함되어 있는 숫자형태의 문자열
+            - `Double.parseDouble`또는 `Float.parseFloat`사용
+            
+            ```java
+            public class Sample {
+                public static void main(String[] args) {
+                    String num = "123.456";
+                    double d = Double.parseDouble(num);
+                    System.out.println(d);
+                }
+            }
+            ```
+            
+        
+        - 정수와 실수 사이의 형 변환도 가능
+            
+            ```java
+            public class Sample {
+                public static void main(String[] args) {
+                    int n1 = 123;
+                    double d1 = n1;.  // 정수를 실수로 바꿀때에는 캐스팅이 필요없다.
+                    System.out.println(d1);  // 123.0 출력
+            
+                    double d2 = 123.456;
+                    int n2 = (int) d2;. // 실수를 정수로 바꿀때에는 반드시 정수형으로 캐스팅해 주어야 한다.
+                    System.out.println(n2);  // 소숫점이 생략된 123 출력
+                }
+            }
+            ```
+            
+        
+        - 실수를 정수로 변환하면 실수의 소숫점은 제거됨
+            - 실수 형태의 문자열을 정수로 변경 시 NumberFormatException이 발생하므로 주의
+            
+            ```java
+            public class Sample {
+                public static void main(String[] args) {
+                    String num = "123.456";
+                    int n = Integer.parseInt(num);  // 실수 형태의 문자열을 정수로 변환할 경우 NumberFormatException이 발생한다.
+                }
+            }
+            ```
+            
+
+- **final**
+    - 자료형에 값을 단 한번만 설정할 수 있게 강제하는 키워드
+        - 값을 한 번 설정하면 그 값을 다시 설정할 수 없음
+        
+        ```java
+        public class Sample {
+            public static void main(String[] args) {
+                final int n = 123;  // final 로 설정하면 값을 바꿀수 없다.
+                n = 456;  // 컴파일 에러 발생
+            }
+        }
+        ```
+        
+    
+    - 리스트의 경우도 final로 선언 시 재할당 불가능
+        
+        ```java
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                final ArrayList<String> a = new ArrayList<>(Arrays.asList("a", "b"));
+                a = new ArrayList<>(Arrays.asList("c", "d"));  // 컴파일 에러 발생
+            }
+        }
+        ```
+        
+    
+    - final은 프로그램 수행 도중 그 값이 변경되면 안되는 상황에 사용
+    
+    - **Unmodifiable List**
+        - 리스트의 경우 final로 선언 시 리스트에 값을 더하거나(add) 빼는(remove) 것은 가능
+            - 재할당만 불가능할 뿐
+        - 만약 그 값을 더하거나 빼는 것도 불가능하게 하고 싶은 경우
+            - `List.of`
+                - 수정이 불가능한 리스트(Unmodifiable List)를 생성해야 함
+                
+                ```java
+                import java.util.List;
+                
+                public class Sample {
+                    public static void main(String[] args) {
+                        final List<String> a = List.of("a", "b");
+                        a.add("c");  // UnsupportedOperationException 발생
+                    }
+                }
+                ```

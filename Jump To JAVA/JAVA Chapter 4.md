@@ -3,7 +3,7 @@
 문서 유형: 학습 자료
 이해관계자: 익명
 작성일시: 2022년 8월 31일 오후 4:41
-최종 편집일시: 2022년 8월 31일 오후 7:31
+최종 편집일시: 2022년 9월 1일 오후 5:25
 
 # Chapter ****04. 제어문****
 
@@ -290,10 +290,311 @@
 
 ## ****03. while 문****
 
-- 
+- ****while문의 기본 구조****
+    - while문의 기본 구조
+        
+        ```java
+        while (조건문) {
+            <수행할 문장1>;
+            <수행할 문장2>;
+            <수행할 문장3>;
+            ...
+        }
+        ```
+        
+    - 조건문이 참인 동안 while문의 수행할 문장들을 반복하여 수행
+    
+    - *열 번 찍어 안 넘어 가는 나무 없다*
+        
+        ```java
+        int treeHit = 0;
+        while (treeHit < 10) {
+            treeHit++;
+            System.out.println("나무를  " + treeHit + "번 찍었습니다.");
+            if (treeHit == 10) {
+                System.out.println("나무 넘어갑니다.");
+            }
+        }
+        ```
+        
+    - 출력 결과
+        
+        ```java
+        나무를  1번 찍었습니다.
+        나무를  2번 찍었습니다.
+        나무를  3번 찍었습니다.
+        나무를  4번 찍었습니다.
+        나무를  5번 찍었습니다.
+        나무를  6번 찍었습니다.
+        나무를  7번 찍었습니다.
+        나무를  8번 찍었습니다.
+        나무를  9번 찍었습니다.
+        나무를  10번 찍었습니다.
+        나무 넘어갑니다.
+        ```
+        
+        - 위의 예에서 while문의 조건문 → `treeHit < 10`
+        - treeHit가 10보다 작은 동안에 while 문 안의 문장들을 계속 수행
+        - 제일 먼저 `treeHit++`로 treeHit값이 계속 1씩 증가
+        - 나무를 treeHit번 만큼 찍었음을 알리는 문장을 출력
+        - treeHit가 10이 되면 “나무 넘어갑니다”라는 문장을 출력
+        - `treeHit < 10`라는 조건문이 거짓이 되어 while문을 빠져 나감
+    
+    - `treeHit++`
+        - 프로그래밍을 할 때 매우 자주 사용하는 기법
+        - treeHit의 값을 1만큼씩 증가시킬 목적으로 쓰이는 것
+
+- ****무한루프(Loop)****
+    - 무한 루프 : 무한히 반복한다는 의미
+    - 자바에서 무한루프 ⇒ while문으로 구현
+    - 무한루프의 기본적인 형태
+        
+        ```java
+        while (true) {    
+            <수행할 문장1>;
+            <수행할 문장2>;
+            ...
+        }
+        ```
+        
+        - while의 조건문이 true 이므로 조건문은 항상 참
+        - 조건문이 참인 동안 while에 속해 있는 문장들을 계속 수행
+            - 무한하게 while문 내의 문장들을 수행할 것
+    
+    - 무한루프 예
+        
+        ```java
+        while (true) {
+            System.out.println("Ctrl-C를 눌러야 while문을 빠져 나갈 수 있습니다.");
+        }
+        ```
+        
+    - 출력결과
+        
+        ```java
+        Ctrl-C를 눌러야 while문을 빠져 나갈 수 있습니다.
+        Ctrl-C를 눌러야 while문을 빠져 나갈 수 있습니다.
+        (... 생략 ...)
+        ```
+        
+        - 위의 문장들이 영원히 출력될 것
+        - 인텔리제이와 같은 IDE를 사용할 경우
+            - 중지버튼("빨간색 버튼")을 눌러 프로세스 종료
+    
+- ****while문 빠져 나가기(break)****
+    - while 문은 조건문이 참인 동안 계속해서 while문 안의 내용을 반복 수행
+    - 강제로 while 문을 빠져나가야 할 때도 있음
+    - 예) break의 사용
+        
+        ```java
+        int coffee = 10;
+        int money = 300;
+        
+        while (money > 0) {
+            System.out.println("돈을 받았으니 커피를 줍니다.");
+            coffee--;
+            System.out.println("남은 커피의 양은 " + coffee + "입니다.");
+            if (coffee == 0) {
+                System.out.println("커피가 다 떨어졌습니다. 판매를 중지합니다.");
+                break;
+            }
+        }
+        ```
+        
+        - money가 300으로 고정
+            - `while (money > 0)`에서 money는 항상 참
+                - 따라서 무한 루프를 돌게 됨
+        - while문이 수행되면 `coffee--`에 의해 coffee의 개수가 한 개씩 줄어듦
+        - 만약 coffee가 0이 되면 `if (coffee == 0)`문장이 참
+            - break가 호출되어 while문을 빠져 나감
+
+- ****while문 조건문으로 돌아가기(continue)****
+    - while문 안의 문장을 수행할 때 어떤 조건을 검사해서 조건에 맞지 않는 경우
+        - while문을 빠져나가는 대신 while문의 맨 처음(조건문)으로 돌아가게 하고 싶은 경우
+    - 예) continue의 사용
+        - continue문
+            - while문의 맨 처음(조건문: a<10)으로 돌아가게 하는 명령어
+        
+        ```java
+        int a = 0;
+        while (a < 10) {
+            a++;
+            if (a % 2 == 0) {
+                continue;  // 짝수인 경우 조건문으로 돌아간다.
+            }
+            System.out.println(a);  // 홀수만 출력된다.
+        }
+        ```
+        
+        - 1부터 10까지의 수 중 홀수만을 출력하는 예
+        - a가 10보다 작은 동안 a는 1만큼씩 계속 증가
+        - `if (a % 2 == 0)`
+            - (2로 나누었을 때 나머지가 0인 경우)이 참이 되는 경우
+                - a가 짝수일 때
+        - 즉, a가 짝수이면 continue 문장이 수행
+        - 위의 예에서 a가 짝수
+            - `System.out.println(a)`수행되지 않기 때문에 홀수만 출력
 
 ## ****04. for 문****
 
-- 
+- ****for 문의 구조****
+    - 예 1) 전형적인 for문
+        
+        ```java
+        String[] numbers = {"one", "two", "three"};
+        for(int i=0; i<numbers.length; i++) {
+            System.out.println(numbers[i]);
+        }
+        ```
+        
+    - 출력결과
+        
+        ```java
+        one
+        two
+        three
+        ```
+        
+        - numbers 배열의 첫번째 요소부터 마지막 요소까지 출력하는 예
+    
+    - for 문의 조건문
+        - 세미콜론(;)을 구분자로 세 부분으로 나뉘어 짐
+        
+        ```java
+        for (초기치; 조건문; 증가치) {
+            ...
+        }
+        ```
+        
+        - 초기치는 `int i=0`이 되고 조건문은 `i<numbers.length`, 증가치는 `i++`이 됨
+            - 즉 i값이 numbers의 갯수보다 작은 동안 계속 i값을 1씩 증가시킨다는 의미
+
+- ****for 문의 예제****
+    - *총 5명의 학생이 시험을 보았는데 시험점수가 60점이 넘으면 합격이고 그렇지 않으면 불합격이다. 합격인지 불합격인지에 대한 결과를 보여준다*
+        - 5명의 학생의 시험성적
+            
+            ```java
+            int[] marks = {90, 25, 67, 45, 80};
+            ```
+            
+        
+        - 점수를 차례로 검사하여 합격여부를 알려주는 프로그램
+            
+            ```java
+            int[] marks = {90, 25, 67, 45, 80};
+            for(int i=0; i<marks.length; i++) {
+                if (marks[i] >= 60) {
+                    System.out.println((i+1)+"번 학생은 합격입니다.");
+                }else {
+                    System.out.println((i+1)+"번 학생은 불합격입니다.");
+                }
+            }
+            ```
+            
+            - i값이 1씩 증가하며 for문 안의 문장들이 수행
+                - marks[i]는 차례로 90, 25, 67, 45, 80의 값을 갖게 됨
+            - marks[i]가 60 이상이면 합격 메시지를 출력, 60을 넘지 않으면 불합격 메시지를 출력
+            - i가 marks의 갯수인 5보다 크게되면 for문이 중지됨
+
+- ****for와 continue****
+    - while 문에서 알아보았던 continue가 for 문에도 동일하게 적용
+    - for문 안의 문장을 수행하는 도중에 continue문을 만나면?
+        - for 문의 처음으로 돌아감
+    - 60점 이상인 사람에게는 축하 메시지를 보내고 나머지 사람에게는 아무런 메시지도 전하지 않는 프로그램
+        
+        ```java
+        int[] marks = {90, 25, 67, 45, 80};
+        for(int i=0; i<marks.length; i++) {
+            if (marks[i] < 60) {
+                continue;
+            }
+            System.out.println((i+1)+"번 학생 축하합니다. 합격입니다.");
+        }
+        ```
+        
+        - 점수가 60점 미만인 학생일 경우에는 `marks[i] < 60`
+        이 참이 되어 continue문이 수행
+            - 축하 메시지를 출력하는 부분을 수행하지 않고, for문의 첫부분으로 돌아가게 됨
+            - while 문과 마찬가지로 for 문안에서 break 문장을 만나면 for 문을 벗어남
+
+- ****이중 for 문****
+    - for 문을 두 번 이용하면 아주 간단하게 구구단 출력 가능
+        
+        ```java
+        for(int i=2; i<10; i++) {
+            for(int j=1; j<10; j++) {
+                System.out.print(i*j+" ");
+            }
+            System.out.println("");
+        }
+        ```
+        
+        - 먼저 2부터 9까지의 숫자가 차례로 i에 대입
+        - i가 처음 2일 때 다시 for 문 만남
+        - 이제 1부터 9까지의 숫자가 j에 대입
+        - 그 다음 문장인 `System.out.print(i*j+" ");` 수행
+        - i가 2일 때 2*1*, 2*2*, 2*3*, , , ,2**9 까지 차례로 수행되며 그 값을 출력
+        - 그 다음에는 i가 3일 때 역시 2일 때와 마찬가지로 수행될 것
+        - 그렇게 i가 9일 때까지 계속 반복
+    
+    - 위에서 `System.out.print`와 `System.out.println`을 구분해 사용
+    - `System.out.print`은 줄바꿈문자(`\n`)을 포함하지 않고 출력
+    - `System.out.println`은 마지막에 줄바꿈문자(`\n`)을 포함하여 출력
+        - 2단, 3단 처럼 한 단이 끝날때만 줄바꿈 문자를 출력하기 위해 구분하여 사용
 
 ## ****05. for each 문****
+
+- for each 라는 키워드가 따로 있는 게 아니라 동일한 for를 이용
+    - 평범한 for 문
+        
+        ```java
+        String[] numbers = {"one", "two", "three"};
+        for(int i=0; i<numbers.length; i++) {
+            System.out.println(numbers[i]);
+        }
+        ```
+        
+    
+    - for each 구조로 변경
+        
+        ```java
+        String[] numbers = {"one", "two", "three"};
+        for(String number: numbers) {
+            System.out.println(number);
+        }
+        ```
+        
+        - for each 문은 보기에 매우 직관적
+        
+    - for each 문의 구조
+        
+        ```java
+        for (type var: iterate) {
+            body-of-loop
+        }
+        ```
+        
+        - iterate : 루프 돌릴 객체
+        - iterate 객체에서 한개씩 순차적으로 var에 대입되어 for문이 수행됨
+        - iterate로 사용할 수 있는 자료형
+            - 루프를 돌릴 수 있는 자료형(배열 및 ArrayList 등)만 가능
+    
+    - ArrayList로 구현
+        - for문의 사용법은 String[] 배열을 사용했을 때와 완전히 동일
+        
+        ```java
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        
+        public class Sample {
+            public static void main(String[] args) {
+                ArrayList<String> numbers = new ArrayList<>(Arrays.asList("one", "two", "three"));
+                for (String number : numbers) {
+                    System.out.println(number);
+                }
+            }
+        }
+        ```
+        
+        - for each 문은 따로 반복회수를 명시적으로 주는 게 불가능
+        - 1스텝씩 순차적으로 반복될 때만 사용 가능하다는 제약 있음

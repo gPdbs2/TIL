@@ -1,5 +1,3 @@
-# JAVA Chapter 5
-
 # Chapter ****05. 객체지향 프로그래밍****
 
 - 자바는 객체지향(Object Oriented) 프로그래밍 언어
